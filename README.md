@@ -1,4 +1,4 @@
-# WeChatControlPC
+# WeChatControlPC - 通过微信控制PC插件
 
 通过微信控制PC插件
 
