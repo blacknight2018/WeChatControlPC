@@ -5,12 +5,42 @@ DWORD dwFunc = 0;
 typedef int  (__stdcall *ptrSrc)(int);
 
 
+void ExecuteCMD(const char *szCommandLine)
+{
+    STARTUPINFOA si = { sizeof(si) };
+    si.cb = sizeof(si);
+    PROCESS_INFORMATION pi = { 0 };
+    si.dwFlags = STARTF_USESHOWWINDOW; //指定wShowWindow成员有效
+    si.wShowWindow = TRUE; //此成员设为TRUE的话则显示新建进程的主窗口
+    BOOL bRet = CreateProcessA(
+        NULL, //不在此指定可执行文件的文件名
+        (char*)szCommandLine, //命令行参数
+        NULL, //默认进程安全性
+        NULL, //默认进程安全性
+        FALSE, //指定当前进程内句柄不可以被子进程继承
+        CREATE_NEW_CONSOLE, //为新进程创建一个新的控制台窗口
+        NULL, //使用本进程的环境变量
+        NULL, //使用本进程的驱动器和目录
+        &si,
+        &pi);
+}
+
 //@wxid 微信ID,群聊@chat
 //wsmsg 消息内容
 void RecvMsgCallBack(wstring wxid,wstring wsmsg)
 {
-    if (wsmsg == L"SHUTDOWN") {
-        MessageBoxW(NULL, L"执行关机", NULL, MB_OK);
+    if (wsmsg == L"gao") {
+        ExecuteCMD("powercfg -s 10cd17b0-a31c-4de3-96ff-b841e6b8ecce");
+    }
+    else if (wsmsg == L"di") {
+        ExecuteCMD("powercfg -s 8b89927c-6b0a-4aa7-9856-892b574747f6");
+    }
+    else if (wsmsg == L"gp") {
+        //ExecuteCMD("scrnsave.scr /s");
+        SendMessageA((HWND)-1, 0x0112, 0xF170, 2);
+    }
+    else if (wsmsg == L"gj") {
+        ExecuteCMD("shutdown -s -t 0");
     }
 }
 
