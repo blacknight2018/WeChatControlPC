@@ -37,7 +37,7 @@ void RecvMsgCallBack(wstring wxid,wstring wsmsg)
     }
     else if (wsmsg == L"gp") {
         //ExecuteCMD("scrnsave.scr /s");
-        SendMessageA((HWND)-1, 0x0112, 0xF170, 2);
+        PostMessageA((HWND)-1, 0x0112, 0xF170, 2);
     }
     else if (wsmsg == L"gj") {
         ExecuteCMD("shutdown -s -t 0");
